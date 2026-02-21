@@ -1,0 +1,732 @@
+<!DOCTYPE html>
+<html lang="my">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>🎥CINEMAS🍿</title>
+  <style>
+    :root {
+      --bg-light: linear-gradient(135deg, #1a2a6c, #b21f1f, #fdbb2d);
+      --bg-dark: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
+      --text-light: #fff;
+      --text-dark: #f0f0f0;
+      --primary: #ff6b6b;
+      --secondary: #4ecdc4;
+      --accent: #ffd166;
+      --card-bg: rgba(255, 255, 255, 0.1);
+      --card-bg-dark: rgba(0, 0, 0, 0.3);
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Poppins', 'Segoe UI', sans-serif;
+      background: var(--bg-light);
+      color: var(--text-light);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+      transition: background 0.5s, color 0.5s;
+      padding: 20px;
+      line-height: 1.6;
+    }
+
+    .dark {
+      background: var(--bg-dark);
+      color: var(--text-dark);
+    }
+
+    .container {
+      width: 100%;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    header {
+      text-align: center;
+      margin-bottom: 30px;
+      padding: 20px;
+      position: relative;
+    }
+
+    .logo {
+      font-size: 48px;
+      margin-bottom: 10px;
+      text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+    }
+
+    h1 {
+      font-size: 42px;
+      margin-bottom: 10px;
+      background: linear-gradient(to right, var(--accent), var(--primary));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+    }
+
+    h2 {
+      font-size: 24px;
+      font-weight: 400;
+      margin-bottom: 30px;
+      opacity: 0.9;
+    }
+
+    .search-section {
+      background: var(--card-bg);
+      backdrop-filter: blur(10px);
+      border-radius: 20px;
+      padding: 30px;
+      margin-bottom: 30px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      transition: transform 0.3s;
+    }
+
+    .dark .search-section {
+      background: var(--card-bg-dark);
+    }
+
+    .search-section:hover {
+      transform: translateY(-5px);
+    }
+
+    .input-group {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 15px;
+      margin-bottom: 20px;
+    }
+
+    input[type="text"] {
+      padding: 15px 25px;
+      font-size: 18px;
+      border: none;
+      border-radius: 50px;
+      outline: none;
+      width: 100%;
+      max-width: 400px;
+      background: rgba(255, 255, 255, 0.9);
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+      transition: all 0.3s;
+    }
+
+    input[type="text"]:focus {
+      background: white;
+      box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
+      transform: scale(1.02);
+    }
+
+    .button-group {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 10px;
+      margin-top: 20px;
+    }
+
+    button {
+      padding: 12px 25px;
+      font-size: 16px;
+      font-weight: 600;
+      background: linear-gradient(to right, var(--primary), var(--secondary));
+      color: white;
+      border: none;
+      border-radius: 50px;
+      cursor: pointer;
+      transition: all 0.3s;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    button:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+    }
+
+    button:active {
+      transform: translateY(1px);
+    }
+
+    .secondary-btn {
+      background: rgba(255, 255, 255, 0.2);
+      backdrop-filter: blur(5px);
+    }
+
+    .secondary-btn:hover {
+      background: rgba(255, 255, 255, 0.3);
+    }
+
+    .hidden {
+      display: none;
+    }
+
+    .video-list-section {
+      width: 100%;
+      margin-top: 20px;
+    }
+
+    .section-title {
+      font-size: 28px;
+      margin-bottom: 20px;
+      text-align: center;
+      color: var(--accent);
+    }
+
+    .video-list {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 25px;
+      margin-bottom: 30px;
+    }
+
+    .video-item {
+      background: var(--card-bg);
+      backdrop-filter: blur(10px);
+      border-radius: 15px;
+      padding: 0;
+      cursor: pointer;
+      transition: all 0.3s;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .dark .video-item {
+      background: var(--card-bg-dark);
+    }
+
+    .video-item:hover {
+      transform: translateY(-8px) scale(1.02);
+      box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
+    }
+
+    .poster-container {
+      width: 100%;
+      height: 350px;
+      overflow: hidden;
+      position: relative;
+      background: linear-gradient(45deg, #ff6b6b, #4ecdc4);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .poster {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.5s;
+    }
+
+    .video-item:hover .poster {
+      transform: scale(1.1);
+    }
+
+    .movie-info {
+      padding: 20px;
+      flex-grow: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .movie-title {
+      font-size: 18px;
+      font-weight: 600;
+      margin-bottom: 10px;
+      color: var(--accent);
+    }
+
+    .movie-year {
+      font-size: 14px;
+      opacity: 0.8;
+      margin-bottom: 15px;
+    }
+
+    .play-button {
+      background: linear-gradient(to right, var(--primary), var(--secondary));
+      color: white;
+      border: none;
+      border-radius: 25px;
+      padding: 10px 20px;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s;
+      text-align: center;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+
+    .play-button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    }
+
+    .video-box {
+      animation: fadeIn 1s ease forwards;
+      opacity: 0;
+      background: var(--card-bg);
+      backdrop-filter: blur(10px);
+      border-radius: 20px;
+      padding: 30px;
+      margin: 30px 0;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      text-align: center;
+    }
+
+    .dark .video-box {
+      background: var(--card-bg-dark);
+    }
+
+    iframe {
+      width: 100%;
+      height: 500px;
+      border-radius: 12px;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+    }
+
+    #loading {
+      font-size: 20px;
+      font-weight: bold;
+      margin: 20px 0;
+      text-align: center;
+      padding: 20px;
+      background: var(--card-bg);
+      border-radius: 15px;
+      backdrop-filter: blur(10px);
+    }
+
+    .dark #loading {
+      background: var(--card-bg-dark);
+    }
+
+    .countdown {
+      font-size: 24px;
+      color: var(--accent);
+      font-weight: bold;
+    }
+
+    @keyframes fadeIn {
+      to { opacity: 1; }
+    }
+
+    footer {
+      margin-top: 40px;
+      padding: 20px;
+      text-align: center;
+      font-size: 14px;
+      opacity: 0.7;
+    }
+
+    /* Responsive adjustments */
+    @media (max-width: 768px) {
+      .video-list {
+        grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      }
+      
+      .poster-container {
+        height: 280px;
+      }
+      
+      iframe {
+        height: 300px;
+      }
+      
+      h1 {
+        font-size: 32px;
+      }
+      
+      .button-group {
+        flex-direction: column;
+        align-items: center;
+      }
+      
+      button {
+        width: 100%;
+        max-width: 300px;
+        justify-content: center;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .video-list {
+        grid-template-columns: 1fr;
+      }
+      
+      .container {
+        padding: 10px;
+      }
+      
+      .search-section {
+        padding: 20px;
+      }
+      
+      .poster-container {
+        height: 250px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <div class="logo">🎥🍿</div>
+      <h1>CINEMAS</h1>
+      <h2 id="titleText">Cari filem yang anda inginkan!</h2>
+    </header>
+    
+    <section class="search-section">
+      <div class="input-group">
+        <input type="text" id="searchInput" placeholder="Cari filem..." />
+      </div>
+      <div class="button-group">
+        <button onclick="searchMovie()" id="searchBtn">
+          <span>🔍</span> Cari
+        </button>
+        <button onclick="showAllMovies()" id="showAllBtn" class="secondary-btn">
+          <span>🎬</span> Semua Filem
+        </button>
+        <button onclick="toggleTheme()" class="secondary-btn">
+          <span>🌙</span> Tema Gelap
+        </button>
+        <button onclick="toggleLang()" id="langBtn" class="secondary-btn">
+          <span>🌐</span> Bahasa
+        </button>
+      </div>
+    </section>
+
+    <p id="loading" class="hidden">
+      <span id="loadingText">Memuat dalam</span> 
+      <span id="countdown" class="countdown">3</span> 
+      <span id="loadingTextSuffix">detik...</span>
+    </p>
+    
+    <section class="video-list-section">
+      <h3 class="section-title" id="sectionTitle">Pilihan Filem Terbaik</h3>
+      <div class="video-list" id="videoList">
+        <!-- Video items will be generated by JavaScript -->
+      </div>
+    </section>
+
+    <div id="videoContainer"></div>
+    <button class="hidden" id="backBtn" onclick="goBack()">
+      <span>🔙</span> Kembali
+    </button>
+  </div>
+
+  <footer>
+    <p>© 2023 CINEMAS - Nikmati filem kegemaran anda!</p>
+  </footer>
+
+  <script>
+    const videos = {
+      "Mechamato Movie": {
+        src: "https://drive.google.com/file/d/1BhOoo1zeHqnDFKZAK7ki2jLr08ihajru/preview",
+        title: "Mechamato",
+        poster: "https://upload.wikimedia.org/wikipedia/en/thumb/5/54/Mechamato_Movie_Official_Poster.jpg/250px-Mechamato_Movie_Official_Poster.jpg",
+        year: "2022"
+      },
+      "Upin Ipin1 Movie": {
+        src: "https://drive.google.com/file/d/1BnOfvH2oH_22yvnaGTec31CPz0iib2ms/preview",
+        title: "Geng Upin & Ipin",
+        poster: "https://m.media-amazon.com/images/M/MV5BNTYyN2E0NjUtZDQ1Mi00YWJhLThhOWEtMTIxZWUwMjFhZTRiXkEyXkFqcGc@._V1_FMjpg_UX1000_.jpg",
+        year: "2009"
+      },
+      "Upin Ipin2 Movie": {
+        src: "https://drive.google.com/file/d/1Bs30hvUcW8_m0UBb6bMpVDknRTnUB6eN/preview",
+        title: "Upin & Ipin: Keris Siamang",
+        poster: "https://www.gscmovies.com.my/wp-content/uploads/2019/03/poster-1-718x1024.jpg",
+        year: "2019"
+      },
+      "Minecraft Movie": {
+        src: "https://drive.google.com/file/d/1CwAkunEjBN_JFl-vEMCNeWEm5gPyv2Jl/preview",
+        title: "A Minecraft Movie",
+        poster: "https://m.media-amazon.com/images/M/MV5BYzFjMzNjOTktNDBlNy00YWZhLWExYTctZDcxNDA4OWVhOTJjXkEyXkFqcGc@._V1_FMjpg_UX1000_.jpg",
+        year: "2021"
+      },
+      "Sang Kancil Movie": {
+        src: "https://drive.google.com/file/d/1DZpp51G11N2hFbjdE6V8-CVFpNithbXU/preview",
+        title: "Dongeng Sang Kancil",
+        poster: "https://m.media-amazon.com/images/M/MV5BZTIwMDE4YzktZjI3NS00NWQ0LWFkOTgtYmI2ODNjMTc0MzA1XkEyXkFqcGc@._V1_.jpg",
+        year: "2018"
+      },
+      "Doraemon Nobitas Chronicle of the Moon Exploration": {
+        src: "https://drive.google.com/file/d/1FhAdZ0Zw0DJrNWOH8VIS_Zy6qNBs8nG8/preview",
+        title: "Doraemon: Nobita's Chronicle of the Moon Exploration",
+        poster: "https://m.media-amazon.com/images/M/MV5BZGE4NGIzMmQtOTcwZi00Mjk4LWFhM2ItMDE0NWU4ZDU3ZjVkXkEyXkFqcGc@._V1_FMjpg_UX1000_.jpg",
+        year: "2019"
+      },
+      "Ejen Ali Movie 1": {
+        src: "https://drive.google.com/file/d/1FkWA0ZvIk69CURxurlPM_5WwCX2s-gcX/preview",
+        title: "Ejen Ali Movie 1",
+        poster: "https://m.media-amazon.com/images/M/MV5BMjQwODliMjAtOTg5Ni00ZjAzLTgyOTYtYzllMTYyMjc4ZmQyXkEyXkFqcGc@._V1_FMjpg_UX1000_.jpg",
+        year: "2019"
+      },
+      "Bola Kampung 3D Movie": {
+        src: "https://drive.google.com/file/d/1G-cRj8V2OVTRb1sGuewcPZQN2oTjAwdg/preview",
+        title: "Bola Kampung 3D",
+        poster: "https://m.media-amazon.com/images/M/MV5BNjQ3OTE2MjI4OV5BMl5BanBnXkFtZTcwNTk4NTMyOQ@@._V1_FMjpg_UX1000_.jpg",
+        year: "2013"
+      },
+      "Boboiboy Movie 1": {
+        src: "https://drive.google.com/file/d/1G36LxkvmSnGLncMxw2TgmURPt9EZrzjD/preview",
+        title: "Boboiboy Movie 1",
+        poster: "https://m.media-amazon.com/images/M/MV5BNWU4OGRhMDEtMzNlNi00ZDI2LTkyOWQtNzE4YTg0YzU1MGYxXkEyXkFqcGc@._V1_FMjpg_UX1000_.jpg",
+        year: "2016"
+      },
+      "Boboiboy Movie 2": {
+        src: "https://drive.google.com/file/d/1G9UgcahT2CDkNoNH0QLgTx6qyvhkNePe/preview",
+        title: "Boboiboy Movie 2",
+        poster: "https://upload.wikimedia.org/wikipedia/en/7/7b/BoBoiBoy_Movie_2_Official_Theatrical_Poster.jpg",
+        year: "2019"
+      },
+      "Paddington In Peru": {
+        src: "https://drive.google.com/file/d/1HUyzNpeIdHsDODryyVfrMrsmgT7LfZhX/preview",
+        title: "Paddington In Peru",
+        poster: "https://upload.wikimedia.org/wikipedia/en/thumb/5/5e/Paddington_in_Peru_poster.jpg/250px-Paddington_in_Peru_poster.jpg",
+        year: "2023"
+      },
+      "Didi & Friends Movie": {
+        src: "https://drive.google.com/file/d/1T_nRNt6W0xal_9xF3p40McnhiMK_Gm0w/preview",
+        title: "Didi & Friends Movie",
+        poster: "https://m.media-amazon.com/images/M/MV5BNzk2OTY1ZDgtZGRkMi00NGU1LTgzZjgtMmIyZTVkMTliNGEwXkEyXkFqcGc@._V1_.jpg",
+        year: "2021"
+      },
+      "Doraemon Nobitas Treasure Island": {
+        src: "https://drive.google.com/file/d/1WZ8ULJrKInL_c2LNOXZrNlcqIhl2FL2B/preview",
+        title: "Doraemon: Nobita's Treasure Island",
+        poster: "https://upload.wikimedia.org/wikipedia/en/thumb/9/9f/Doraemon_movie_2018.jpeg/250px-Doraemon_movie_2018.jpeg",
+        year: "2018"
+      },
+      "Big Hero 6": {
+        src: "https://drive.google.com/file/d/1Ww4cIWisnRCwpAomlRxJizR15jhq1VdL/preview",
+        title: "Big Hero 6",
+        poster: "https://lumiere-a.akamaihd.net/v1/images/image_94f89ec1.jpeg",
+        year: "2014"
+      },
+      "Ralph Breaks The Internet": {
+        src: "https://drive.google.com/file/d/1NGxPppjhDRzVE_hI-bSp_hZVr8iQIoSl/preview",
+        title: "Ralph Breaks The Internet",
+        poster: "https://lumiere-a.akamaihd.net/v1/images/image_94f89ec1.jpeg",
+        year: "2018"
+      },
+      "Doraemon Nobitas and the Steel Troops ~Winged Angels~": {
+        src: "https://drive.google.com/file/d/1Z7ixyquvRXLHAmipxXXLTPUt-KrG50Wq/preview",
+        title: "Doraemon: Nobita and the Steel Troops ~Winged Angels~",
+        poster: "https://image.tmdb.org/t/p/w780/sGRsfJrcUPykw6HtM7r4FzhKlpQ.jpg",
+        year: "2011"
+      },
+      "Ejen Ali Movie 2": {
+        src: "https://drive.google.com/file/d/1bOlGnnRLv1_uunpCGLnUHJ26Xwex45uz/preview",
+        title: "Ejen Ali Movie 2",
+        poster: "https://m.media-amazon.com/images/M/MV5BZjhiNDkyODItZDc2Ni00YTcwLWFhMWMtZmRlYmQ5MDRmMmMyXkEyXkFqcGc@._V1_.jpg",
+        year: "2022"
+      }
+    };
+
+    let langs = ['my', 'id', 'en'];
+    let currentLangIndex = 0;
+    let allMovies = [];
+
+    const textContent = {
+      my: {
+        title: "Cari filem yang anda inginkan!",
+        placeholder: "Cari filem...",
+        search: "Cari",
+        showAll: "Semua Filem",
+        theme: "Tema Gelap",
+        lang: "Bahasa",
+        kembali: "Kembali",
+        loading: "Memuat dalam",
+        notFound: "Filem tidak ditemukan!",
+        lang: "Bahasa",
+        sectionTitle: "Pilihan Filem Terbaik",
+        playButton: "Tonton Sekarang",
+        footer: "© 2023 CINEMAS - Nikmati filem kegemaran anda!"
+      },
+      id: {
+        title: "Cari film yang kamu inginkan!",
+        placeholder: "Cari film...",
+        search: "Cari",
+        showAll: "Semua Film",
+        theme: "Tema Gelap",
+        lang: "Bahasa",
+        kembali: "Kembali",
+        loading: "Memuat dalam",
+        notFound: "Film tidak ditemukan!",
+        lang: "Language",
+        sectionTitle: "Pilihan Film Terbaik",
+        playButton: "Tonton Sekarang",
+        footer: "© 2023 CINEMAS - Nikmati film favorit kamu!"
+      },
+      en: {
+        title: "Search for the movie you want!",
+        placeholder: "Search movie...",
+        search: "Search",
+        showAll: "All Movies",
+        theme: "Dark Theme",
+        lang: "Language",
+        kembali: "Back",
+        loading: "Loading in",
+        notFound: "Movie not found!",
+        lang: "Language",
+        sectionTitle: "Featured Movies",
+        playButton: "Watch Now",
+        footer: "© 2023 CINEMAS - Enjoy your favorite movies!"
+      }
+    };
+
+    // Generate video list with posters
+    function generateVideoList(movies = null) {
+      const videoList = document.getElementById('videoList');
+      videoList.innerHTML = '';
+      
+      const moviesToShow = movies || Object.keys(videos);
+      
+      if (moviesToShow.length === 0) {
+        videoList.innerHTML = `<div style="text-align: center; padding: 40px; color: var(--accent);">${textContent[langs[currentLangIndex]].notFound}</div>`;
+        return;
+      }
+      
+      moviesToShow.forEach(key => {
+        const video = videos[key];
+        const videoItem = document.createElement('div');
+        videoItem.className = 'video-item';
+        videoItem.innerHTML = `
+          <div class="poster-container">
+            <img src="${video.poster}" alt="${video.title}" class="poster" onerror="this.src='https://images.unsplash.com/photo-1594909122845-11baa439b7bf?w=400&h=500&fit=crop'">
+          </div>
+          <div class="movie-info">
+            <div>
+              <h3 class="movie-title">${video.title}</h3>
+              <p class="movie-year">${video.year}</p>
+            </div>
+            <button class="play-button" onclick="playVideo('${key}')">
+              <span>▶</span> ${textContent[langs[currentLangIndex]].playButton}
+            </button>
+          </div>
+        `;
+        videoList.appendChild(videoItem);
+      });
+    }
+
+    function toggleLang() {
+      currentLangIndex = (currentLangIndex + 1) % langs.length;
+      const currentLang = langs[currentLangIndex];
+      const t = textContent[currentLang];
+
+      document.getElementById("titleText").innerText = t.title;
+      document.getElementById("searchInput").placeholder = t.placeholder;
+      document.getElementById("searchBtn").innerHTML = `<span>🔍</span> ${t.search}`;
+      document.getElementById("showAllBtn").innerHTML = `<span>🎬</span> ${t.showAll}`;
+      document.querySelector('button[onclick="toggleTheme()"]').innerHTML = `<span>🌙</span> ${t.theme}`;
+      document.getElementById("langBtn").innerHTML = `<span>🌐</span> ${t.lang}`;
+      document.getElementById("loadingText").innerText = t.loading;
+      document.getElementById("loadingTextSuffix").innerText = "detik...";
+      document.getElementById("backBtn").innerHTML = `<span>🔙</span> ${t.kembali}`;
+      document.getElementById("sectionTitle").innerText = t.sectionTitle;
+      document.querySelector("footer p").innerText = t.footer;
+      
+      // Update play buttons text
+      document.querySelectorAll('.play-button').forEach(button => {
+        const key = button.getAttribute('onclick').match(/'([^']+)'/)[1];
+        button.innerHTML = `<span>▶</span> ${t.playButton}`;
+        button.setAttribute('onclick', `playVideo('${key}')`);
+      });
+    }
+
+    function searchMovie() {
+      const searchTerm = document.getElementById("searchInput").value.trim().toLowerCase();
+      if (!searchTerm) {
+        generateVideoList();
+        return;
+      }
+
+      const filteredMovies = Object.keys(videos).filter(key => {
+        const video = videos[key];
+        return (
+          video.title.toLowerCase().includes(searchTerm) ||
+          key.toLowerCase().includes(searchTerm) ||
+          video.year.includes(searchTerm)
+        );
+      });
+
+      generateVideoList(filteredMovies);
+    }
+
+    function showAllMovies() {
+      document.getElementById("searchInput").value = "";
+      generateVideoList();
+    }
+
+    function playVideo(key) {
+      const video = videos[key];
+      document.getElementById("loading").classList.remove("hidden");
+      let count = 3;
+      const countdown = setInterval(() => {
+        document.getElementById("countdown").innerText = count;
+        count--;
+        if (count < 0) {
+          clearInterval(countdown);
+          const container = document.getElementById("videoContainer");
+          container.innerHTML = `
+            <div class="video-box">
+              <h3>🎬 ${video.title} (${video.year})</h3>
+              <iframe src="${video.src}" allow="autoplay; fullscreen" allowfullscreen></iframe>
+            </div>
+          `;
+          document.getElementById("backBtn").classList.remove("hidden");
+          document.getElementById("loading").classList.add("hidden");
+          // Scroll to video
+          container.scrollIntoView({ behavior: 'smooth' });
+        }
+      }, 1000);
+    }
+
+    function goBack() {
+      document.getElementById("videoContainer").innerHTML = "";
+      document.getElementById("backBtn").classList.add("hidden");
+      // Scroll back to top
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function toggleTheme() {
+      document.body.classList.toggle("dark");
+      const themeBtn = document.querySelector('button[onclick="toggleTheme()"]');
+      const currentLang = langs[currentLangIndex];
+      if (document.body.classList.contains("dark")) {
+        themeBtn.innerHTML = `<span>☀️</span> ${textContent[currentLang].theme.replace("Gelap", "Terang")}`;
+      } else {
+        themeBtn.innerHTML = `<span>🌙</span> ${textContent[currentLang].theme}`;
+      }
+    }
+
+    // Add Enter key support for search input
+    document.getElementById("searchInput").addEventListener("keyup", function(event) {
+      if (event.key === "Enter") {
+        searchMovie();
+      }
+    });
+
+    // Initialize the video list on page load
+    document.addEventListener('DOMContentLoaded', function() {
+      generateVideoList();
+    });
+  </script>
+</body>
+</html>
